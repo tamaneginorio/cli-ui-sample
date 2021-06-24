@@ -1,8 +1,9 @@
+const moment = require('moment')
 const blessed = require('blessed')
 const contrib = require('blessed-contrib')
 const screen = blessed.screen()
 const grid = new contrib.grid({
-  rows: 1,
+  rows: 2,
   cols:2,
   screen: screen
 })
@@ -48,6 +49,19 @@ const _updateLineData = (lineData) => {
   }
   return lineData
 }
+
+const logConfig = (title) => ({
+  fg: "green",
+  selectedFg: "blue",
+  label: title 
+})
+const log = grid.set(1,0,1,2, contrib.log, logConfig('LOG'))
+
+setInterval(() => {
+  const now = moment().format('YYYY/MM/DD HH:mm:ss')
+  const msg = `now is ${now}`
+  log.log(msg)
+}, 1000)
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
