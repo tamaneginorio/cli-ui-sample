@@ -63,17 +63,23 @@ setInterval(() => {
   log.log(msg)
 }, 1000)
 
-const markdown = grid.set(0,0,1,2, contrib.markdown, null)
-setInterval(() => {
+const createPriceInfo = () => {
   const price = parseInt(Math.random() * 20000 + 3500000).toLocaleString()
   const rate = (Math.random() * 1 + 3).toFixed(2)
   const spread = parseInt(Math.random() * 2000 + 50).toLocaleString()
-  const msg = `PRICE: \`${price}\` RATE: \`${rate}\` SPREAD: \`${spread}\``
+  return `PRICE: \`${price}\` RATE: \`${rate}\` SPREAD: \`${spread}\``
+}
+
+const markdown = grid.set(0,0,1,2, contrib.markdown, null)
+let msg = createPriceInfo()
+markdown.setMarkdown(msg)
+setInterval(() => {
+  msg = createPriceInfo()
   markdown.setMarkdown(msg)
-})
+}, 500)
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
-});
+})
 
 screen.render()
